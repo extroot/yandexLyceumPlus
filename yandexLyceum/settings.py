@@ -5,10 +5,16 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Add dotenv
-dotenv_path = os.path.join(BASE_DIR, '.env')
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# Upd изменил.
+# Но я все еще не понимаю, почему не понравился прошлый вариант решения с DEBUG
+# Он конечное в духе Сишных языков программирования, но всё же.
+# (На всякий случай опишу как работает:
+# при указании переменной в .env файле включается дебаг,
+# а если закомментировать/убрать, берётся значение по умолчанию (False)
+# (Во многих проектах на C++ подобных языках используется такое
+# объявление некоторых переменных.)
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
