@@ -19,7 +19,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = os.environ.get('DEBUG') == 'True'
+DEBUG = os.environ.get('DEBUG', False) == 'True'
 
 
 ALLOWED_HOSTS = ['127.0.0.1']
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # My apps
+    'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
     'about.apps.AboutConfig',
     'catalog.apps.CatalogConfig',
