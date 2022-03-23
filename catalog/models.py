@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.models import Published
+from core.models import Published, Slug
 
 
 class Item(Published):
@@ -15,3 +15,9 @@ class Item(Published):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+
+class Tag(Slug, Published):
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
