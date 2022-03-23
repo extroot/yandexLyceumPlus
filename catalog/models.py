@@ -12,9 +12,30 @@ class Item(Published):
     # Todo: Validator
     is_published = models.BooleanField(default=False)
 
+    tags = models.ManyToManyField(
+        verbose_name='Теги',
+        to='Tag',
+        related_name='items',
+        on_delete=models.SET_NULL
+    )
+    category = models.ManyToManyField(
+        verbose_name='Категория',
+        to='Category',
+        related_name='items',
+        on_delete=models.SET_NULL
+    )
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+
+class Category(Slug, Published):
+    weight = models.PositiveSmallIntegerField(verbose_name='Вес', default=100)
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Tag(Slug, Published):
