@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from catalog.validators import text_validation
@@ -11,20 +12,26 @@ class Item(Published):
         help_text='Минимум два слова. Обязательно должно содержаться слово превосходно или роскошно',
         validators=[text_validation]
     )
-    # Todo: Validator
     is_published = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(
         verbose_name='Теги',
         to='Tag',
         related_name='items',
-        on_delete=models.SET_NULL
     )
-    category = models.ManyToManyField(
+    category = models.ForeignKey(
         verbose_name='Категория',
         to='Category',
         related_name='items',
-        on_delete=models.SET_NULL
+        on_delete=models.DO_NOTHING
+    )
+
+    ratings = models.ManyToManyField(
+        verbose_name='Оценки',
+        to=User,
+        related_name='items',
+        through='rating.Rating',
+        through_fields=('item', 'user')
     )
 
     class Meta:
