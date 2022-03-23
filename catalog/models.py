@@ -12,7 +12,6 @@ class Item(Published):
         help_text='Минимум два слова. Обязательно должно содержаться слово превосходно или роскошно',
         validators=[text_validation]
     )
-    is_published = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(
         verbose_name='Теги',
