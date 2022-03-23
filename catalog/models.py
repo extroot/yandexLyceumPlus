@@ -1,9 +1,11 @@
 from django.db import models
 
 
-class Shelf(models.Model):
-    class Meta:
-        verbose_name = 'Полка'
-        verbose_name_plural = 'Полки'
+class Item(models.Model):
+    name = models.CharField(max_length=255)
+    text = models.TextField(blank=True, null=True)
+    is_published = models.BooleanField(default=False)
 
-    name = models.CharField(verbose_name='Имя', max_length=128)
+    class Meta:
+        verbose_name = 'Элемент'
+        verbose_name_plural = 'Элементы'
