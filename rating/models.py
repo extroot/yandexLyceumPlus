@@ -14,8 +14,19 @@ class Rating(models.Model):
     )
 
     star = models.CharField(verbose_name='Оценка', max_length=1, choices=choices, default='0')
-    item = models.ForeignKey(verbose_name='Товар', to='catalog.Item', on_delete=models.CASCADE)
-    user = models.ForeignKey(verbose_name='Пользователь', to=User, on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        verbose_name='Товар',
+        to='catalog.Item',
+        on_delete=models.CASCADE,
+        related_name='ratings'
+    )
+
+    user = models.ForeignKey(
+        verbose_name='Пользователь',
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='ratings'
+    )
 
     class Meta:
         verbose_name = 'Оценка'
