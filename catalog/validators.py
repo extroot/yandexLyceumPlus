@@ -6,9 +6,6 @@ def text_validation(text: str):
     if len(text.split()) < 2:
         raise ValidationError(f'Минимально необходимо 2 слова')
 
-    lower_text = text.lower()
-    for check_word in must_words:
-        if check_word in lower_text:
-            break
-    else:
+    lower_text = set(text.lower().split())
+    if len(lower_text) == len(lower_text - must_words):
         raise ValidationError(f'Необходимо использовать одно из слов: {must_words}')
