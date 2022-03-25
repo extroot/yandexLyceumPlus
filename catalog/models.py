@@ -22,15 +22,7 @@ class Item(Published):
         verbose_name='Категория',
         to='Category',
         related_name='items',
-        on_delete=models.DO_NOTHING
-    )
-
-    ratings = models.ManyToManyField(
-        verbose_name='Оценки',
-        to=User,
-        related_name='items',
-        through='rating.Rating',
-        through_fields=('item', 'user')
+        on_delete=models.RESTRICT
     )
 
     class Meta:
