@@ -25,6 +25,9 @@ class Item(Published):
         on_delete=models.RESTRICT
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
@@ -33,12 +36,18 @@ class Item(Published):
 class Category(Slug, Published):
     weight = models.PositiveSmallIntegerField(verbose_name='Вес', default=100)
 
+    def __str__(self):
+        return self.slug
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
 
 class Tag(Slug, Published):
+    def __str__(self):
+        return self.slug
+
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
