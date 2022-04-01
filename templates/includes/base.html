@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Тут должен быть заголовок{% endblock %}</title>
+</head>
+<body>
+{% include 'includes/header.html' %}
+
+{% block content %}
+    <section style="height: 90vh">
+        <h1>Главная</h1>
+        <div>
+            <a href="https://t.me/extroot">Мой тг</a>
+        </div>
+    </section>
+{% endblock %}
+
+{% include 'includes/footer.html' %}
+</body>
+</html>

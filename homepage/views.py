@@ -2,4 +2,5 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'home/index.html')
+    context = {}
+    return render(request, 'homepage/home.html', context=context)
