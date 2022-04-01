@@ -5,7 +5,7 @@
     <title>{% block title %}Тут должен быть заголовок{% endblock %}</title>
 </head>
 <body>
-{% include 'header.html' %}
+{% include 'includes/header.html' %}
 
 {% block content %}
     <section style="height: 90vh">
@@ -16,6 +16,6 @@
     </section>
 {% endblock %}
 
-{% include 'footer.html' %}
+{% include 'includes/footer.html' %}
 </body>
 </html>
