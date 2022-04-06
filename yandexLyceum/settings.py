@@ -4,20 +4,33 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Add env
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-# Upd изменил.
-# Но я все еще не понимаю, почему не понравился прошлый вариант решения с DEBUG
-# Он конечное в духе Сишных языков программирования, но всё же.
-# (На всякий случай опишу как работает:
-# при указании переменной в .env файле включается дебаг,
-# а если закомментировать/убрать, берётся значение по умолчанию (False)
-# (Во многих проектах на C++ подобных языках используется такое
-# объявление некоторых переменных.)
+
+# Sentry (Default off)
+# Only for better debug
+if os.environ.get('USE_SENTRY') == 'True':
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+        from sentry_sdk.utils import BadDsn
+
+        sentry_sdk.init(
+            dsn=os.getenv('SENTRY_DSN'),
+            integrations=[DjangoIntegration()],
+
+            traces_sample_rate=1.0,
+            send_default_pii=True
+        )
+    except BadDsn:
+        pass
+    except ImportError:
+        pass
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
 
 DEBUG = os.environ.get('DEBUG', False) == 'True'
 
@@ -117,5 +130,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
