@@ -45,6 +45,8 @@ class Category(Slug, Published):
 
 
 class Tag(Slug, Published):
+    name = models.CharField(verbose_name='Имя', max_length=128)
+
     def __str__(self):
         return self.slug
 

@@ -1,8 +1,13 @@
 from django.shortcuts import render
 
+from catalog.models import Item
+
 
 def item_list(request):
-    context = {}
+    all_items = Item.objects.filter(is_published=True)
+    context = {
+        'items': all_items
+    }
     return render(request, 'catalog/item_list.html', context)
 
 
