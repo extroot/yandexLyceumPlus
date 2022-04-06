@@ -1,21 +1,21 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-    Подробно элемент
+  Подробно элемент
 {% endblock %}
 
 {% block content %}
-    <div class="container m-4">
-        <h2>{{ item.name }}</h2>
+  <div class="container m-4">
+    <h2>{{ item.name }}</h2>
 
-        <h5>{{ item.category.name }}</h5>
+    <h5>{{ item.category.name }}</h5>
 
-        <p>{{ item.text }}</p>
-        <h5>Теги:</h5>
-        {% for tag in item.tags.all %}
-            <p>{{ tag.name }}</p>
-        {% empty %}
-            <p>Тегов нет</p>
-        {% endfor %}
-    </div>
+    <p>{{ item.text }}</p>
+    <h5>Теги:</h5>
+    {% for tag in item.tags.all %}
+      <p>{{ tag.name }}</p>
+    {% empty %}
+      <p>Тегов нет</p>
+    {% endfor %}
+  </div>
 {% endblock %}

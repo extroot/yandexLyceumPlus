@@ -2,21 +2,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Тут должен быть заголовок{% endblock %}</title>
-    <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>{% block title %}Тут должен быть заголовок{% endblock %}</title>
+  <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
 </head>
 <body>
 {% include 'includes/header.html' %}
 
 {% block content %}
+  <div class="container">
+    <h1>Главная</h1>
     <div class="container">
-        <h1>Главная</h1>
-        <div class="container">
-            <a href="https://t.me/extroot">Мой тг</a>
-        </div>
+      <a href="https://t.me/extroot">Мой тг</a>
     </div>
+  </div>
 {% endblock %}
 
 {% include 'includes/footer.html' %}

@@ -1,18 +1,18 @@
 <div class="container">
-    <div class="row row-cols-2">
-        {% for item in items %}
-            <a class="col text-decoration-none text-black bg-light" href="/catalog/{{ item.pk }}">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.text|truncatewords:10 }}</p>
-                    <h5>Теги:</h5>
-                    {% for tag in item.tags.all %}
-                        <p>{{ tag.name }}</p>
-                    {% empty %}
-                        <p>Тегов нет</p>
-                    {% endfor %}
-            </a>
-        {% empty %}
-            <p>Список пуст. Эй, админ, добавь инфы!<p></p>
-        {% endfor %}
-    </div>
+  <div class="row row-cols-2">
+    {% for item in items %}
+      <a class="col text-decoration-none text-black bg-light" href="/catalog/{{ item.pk }}">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.text|truncatewords:10 }}</p>
+          <h5>Теги:</h5>
+          {% for tag in item.tags.all %}
+            <p>{{ tag.name }}</p>
+          {% empty %}
+            <p>Тегов нет</p>
+          {% endfor %}
+      </a>
+    {% empty %}
+      <p>Список пуст. Эй, админ, добавь инфы!<p></p>
+    {% endfor %}
+  </div>
 </div>
