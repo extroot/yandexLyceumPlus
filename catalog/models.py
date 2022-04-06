@@ -35,6 +35,7 @@ class Item(Published):
 
 class Category(Slug, Published):
     weight = models.PositiveSmallIntegerField(verbose_name='Вес', default=100)
+    name = models.CharField(verbose_name='Имя', max_length=128)
 
     def __str__(self):
         return self.slug

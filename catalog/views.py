@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 from catalog.models import Item
@@ -12,7 +13,14 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
+    try:
+        item = Item.objects.get(pk=id_product)
+        if not item.is_published:
+            raise Http404()
+    except Item.DoesNotExist:
+        raise Http404()
+
     context = {
-        "id_product": id_product
+        "item": item
     }
     return render(request, 'catalog/item_detail.html', context)
