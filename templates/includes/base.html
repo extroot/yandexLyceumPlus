@@ -1,19 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Тут должен быть заголовок{% endblock %}</title>
+    <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
 </head>
 <body>
 {% include 'includes/header.html' %}
 
 {% block content %}
-    <section style="height: 90vh">
+    <div class="container">
         <h1>Главная</h1>
-        <div>
+        <div class="container">
             <a href="https://t.me/extroot">Мой тг</a>
         </div>
-    </section>
+    </div>
 {% endblock %}
 
 {% include 'includes/footer.html' %}
