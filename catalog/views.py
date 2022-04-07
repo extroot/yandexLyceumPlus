@@ -1,8 +1,8 @@
-from catalog.models import Item, Tag
-
 from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import render
+
+from catalog.models import Item, Tag
 
 
 def item_list(request):

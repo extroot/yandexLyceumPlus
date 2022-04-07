@@ -1,9 +1,9 @@
 import random
 
-from catalog.models import Item, Tag
-
 from django.db.models import Prefetch
 from django.shortcuts import render
+
+from catalog.models import Item, Tag
 
 
 def home(request):
