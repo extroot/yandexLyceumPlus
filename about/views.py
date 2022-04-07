@@ -3,4 +3,5 @@ from django.shortcuts import render
 
 def description(request):
     context = {}
-    return render(request, 'about/description.html', context=context)
+    template = 'about/description.html'
+    return render(request, template, context=context)

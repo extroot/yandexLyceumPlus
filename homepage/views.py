@@ -23,4 +23,5 @@ def home(request):
     context = {
         'items': items
     }
-    return render(request, 'homepage/home.html', context=context)
+    template = 'homepage/home.html'
+    return render(request, template, context=context)

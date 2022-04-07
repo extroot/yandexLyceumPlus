@@ -9,10 +9,12 @@ def item_list(request):
     all_items = Item.objects.filter(is_published=True).prefetch_related(
         Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only("name"))
     )
+
     context = {
         'items': all_items
     }
-    return render(request, 'catalog/item_list.html', context)
+    template = 'catalog/item_list.html'
+    return render(request, template, context)
 
 
 def item_detail(request, id_product):
@@ -24,4 +26,5 @@ def item_detail(request, id_product):
     context = {
         'item': item
     }
-    return render(request, 'catalog/item_detail.html', context)
+    template = 'catalog/item_detail.html'
+    return render(request, template, context)
