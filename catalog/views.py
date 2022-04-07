@@ -1,6 +1,6 @@
 from django.db.models import Prefetch
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from catalog.models import Item, Tag
 
@@ -16,12 +16,9 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
-    try:
-        item = Item.objects.get(pk=id_product)
-        if not item.is_published:
-            # Не уверен нужно ли это, но пусть будет.
-            raise Http404()
-    except Item.DoesNotExist:
+    item = get_object_or_404(Item, pk=id_product)
+    if not item.is_published:
+        # Не уверен нужно ли это, но пусть будет.
         raise Http404()
 
     context = {
