@@ -1,9 +1,8 @@
+from catalog.models import Item, Tag
+
 from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import render
-
-from catalog.models import Item
-from catalog.models import Tag
 
 
 def item_list(request):
@@ -26,6 +25,6 @@ def item_detail(request, id_product):
         raise Http404()
 
     context = {
-        "item": item
+        'item': item
     }
     return render(request, 'catalog/item_detail.html', context)

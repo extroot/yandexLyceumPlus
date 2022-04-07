@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,22 +12,16 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # Sentry (Default off)
 # Only for better debug
 if os.environ.get('USE_SENTRY') == 'True':
-    try:
-        import sentry_sdk
-        from sentry_sdk.integrations.django import DjangoIntegration
-        from sentry_sdk.utils import BadDsn
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
 
-        sentry_sdk.init(
-            dsn=os.getenv('SENTRY_DSN'),
-            integrations=[DjangoIntegration()],
+    sentry_sdk.init(
+        dsn=os.getenv('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
 
-            traces_sample_rate=1.0,
-            send_default_pii=True
-        )
-    except BadDsn:
-        pass
-    except ImportError:
-        pass
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -38,7 +33,7 @@ DEBUG = os.environ.get('DEBUG', False) == 'True'
 ALLOWED_HOSTS = ['127.0.0.1']
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    '127.0.0.1',
 ]
 
 # Application definition
@@ -51,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "debug_toolbar",
+    'debug_toolbar',
     # My apps
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
@@ -62,7 +57,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,8 +72,7 @@ ROOT_URLCONF = 'yandexLyceum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,7 +132,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

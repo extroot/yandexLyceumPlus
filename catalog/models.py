@@ -1,15 +1,16 @@
-from django.contrib.auth.models import User
-from django.db import models
-
 from catalog.validators import text_validation
+
 from core.models import Published, Slug
+
+from django.db import models
 
 
 class Item(Published):
     name = models.CharField(max_length=150)
     text = models.TextField(
         verbose_name='Текст',
-        help_text='Минимум два слова. Обязательно должно содержаться слово превосходно или роскошно',
+        help_text='Минимум два слова. Обязательно должно'
+                  ' содержаться слово превосходно или роскошно',
         validators=[text_validation]
     )
 
