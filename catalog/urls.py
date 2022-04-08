@@ -1,6 +1,7 @@
+from catalog import views
+
 from django.urls import path
 
-from catalog import views
 
 urlpatterns = [
     path('<int:id_product>/', views.item_detail, name='product_page'),

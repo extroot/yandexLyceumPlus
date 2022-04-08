@@ -1,13 +1,13 @@
+from catalog.models import Item, Tag
+
 from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 
-from catalog.models import Item, Tag
-
 
 def item_list(request):
     all_items = Item.objects.filter(is_published=True).prefetch_related(
-        Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only("name"))
+        Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name'))
     )
 
     context = {

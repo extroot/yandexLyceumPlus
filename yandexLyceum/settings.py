@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'debug_toolbar',
+    'debug_toolbar.apps.DebugToolbarConfig',
     # My apps
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',

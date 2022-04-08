@@ -1,7 +1,8 @@
-from django.db import models
-
 from catalog.validators import text_validation
+
 from core.models import Published, Slug
+
+from django.db import models
 
 
 class Item(Published):
