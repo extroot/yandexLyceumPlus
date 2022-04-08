@@ -17,7 +17,7 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
-    item = get_object_or_404(Item, pk=id_product, is_published=True)
+    item = get_object_or_404(Item.objects.only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
     context = {
         'item': item
