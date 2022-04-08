@@ -7,8 +7,11 @@
 {% block content %}
   <div class="container m-4">
     <h2>{{ item.name }}</h2>
+    <!-- Если категория скрыта, то не показываем. -->
+    {% if item.category %}
+      <h5>{{ item.category.name }}</h5>
+    {% endif %}
 
-    <h5>{{ item.category.name }}</h5>
 
     <p>{{ item.text }}</p>
     <h5>Теги:</h5>
