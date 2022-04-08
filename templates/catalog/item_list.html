@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Список элементов</h1>
-  {% include "catalog/includes/item_grid.html" %}
+    <section class="container">
+        {% if items %}
+            <h2>Товары</h2>
+        {% endif %}
+        {% include 'catalog/includes/item_grid.html' %}
+    </section>
 {% endblock %}

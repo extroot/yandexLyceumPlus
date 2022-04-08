@@ -1,18 +1,24 @@
-<div class="container">
-  <div class="row row-cols-2">
+<div class="row">
     {% for item in items %}
-      <a class="col text-decoration-none text-black bg-light" href="/catalog/{{ item.pk }}">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.text|truncatewords:10 }}</p>
-          <h5>Теги:</h5>
-          {% for tag in item.tags.all %}
-            <p>{{ tag.name }}</p>
-          {% empty %}
-            <p>Тегов нет</p>
-          {% endfor %}
-      </a>
+        <div class="col-sm-6">
+            <div class="card m-2" style="width: 35rem;">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h5>
+                            {{ item.name }}
+                        </h5>
+                        {% for tag in item.tags.all %}
+                            <span class="badge bg-success">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <p class="card-text">Описание: {{ item.text|truncatewords:10 }}</p>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
     {% empty %}
-      <p>Список пуст. Эй, админ, добавь инфы!<p></p>
+        <h3>Список пуст. Эй, админ, добавь инфы!</h3>
     {% endfor %}
-  </div>
 </div>

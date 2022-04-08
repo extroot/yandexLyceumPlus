@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Главная</h1>
-  {% include "catalog/includes/item_grid.html" %}
-  <!-- Тг на всякий случай -->
-  <div>
-    <a href="https://t.me/extroot">Мой тг</a>
-  </div>
+    <section class="container">
+        {% if items %}
+            <h2>Главная</h2>
+        {% endif %}
+        {% include 'catalog/includes/item_grid.html' %}
+    </section>
 {% endblock %}
