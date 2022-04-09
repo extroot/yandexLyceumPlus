@@ -10,7 +10,7 @@ class ItemManager(models.Manager):
     def published_items(self):
         return self.filter(is_published=True).prefetch_related(
             Prefetch('tags', queryset=Tag.objects.published_tags())
-        ).only('name', 'text', 'tags__name')
+        ).only('name', 'text', 'tags__name', 'category_id')
 
 
 class CategoryManager(models.Manager):
