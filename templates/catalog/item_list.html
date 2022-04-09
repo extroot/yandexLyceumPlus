@@ -10,10 +10,12 @@
             <h2>Товары</h2>
         {% endif %}
         {% for cat in categories %}
-            <h3>{{ cat.name }}</h3>
-            {% with items=cat.items.all %}
-                {% include 'catalog/includes/item_grid.html' %}
-            {% endwith %}
+            {% if cat.items.count %}
+                <h3>{{ cat.name }}</h3>
+                {% with items=cat.items.all %}
+                    {% include 'catalog/includes/item_grid.html' %}
+                {% endwith %}
+            {% endif %}
         {% empty %}
             <h3>Список пуст. Эй, админ, добавь инфы!</h3>
         {% endfor %}
