@@ -17,9 +17,8 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
-    item = get_object_or_404(Item.objects.prefetch_related(
+    item = get_object_or_404(Item.objects.select_related('category').prefetch_related(
         Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
-        Prefetch('category', queryset=Category.objects.filter(is_published=True).only('name'))
     ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
     context = {
