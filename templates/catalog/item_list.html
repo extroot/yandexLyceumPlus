@@ -1,14 +1,21 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Список элементов
+    Список элементов
 {% endblock %}
 
 {% block content %}
     <section class="container">
-        {% if items %}
+        {% if categories %}
             <h2>Товары</h2>
         {% endif %}
-        {% include 'catalog/includes/item_grid.html' %}
+        {% for cat in categories %}
+            <h3>{{ cat.name }}</h3>
+            {% with items=cat.items.all %}
+                {% include 'catalog/includes/item_grid.html' %}
+            {% endwith %}
+        {% empty %}
+            <h3>Список пуст. Эй, админ, добавь инфы!</h3>
+        {% endfor %}
     </section>
 {% endblock %}

@@ -3,6 +3,26 @@ from catalog.validators import text_validation
 from core.models import Published, Slug
 
 from django.db import models
+from django.db.models import Prefetch
+
+
+class ItemManager(models.Manager):
+    def published_items(self):
+        return self.filter(is_published=True).prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.published_tags())
+        ).only('name', 'text', 'tags__name')
+
+
+class CategoryManager(models.Manager):
+    def published_category(self):
+        return self.filter(is_published=True).prefetch_related(
+            Prefetch('items', queryset=Item.objects.published_items())
+        ).order_by('weight').only('name')
+
+
+class TagManager(models.Manager):
+    def published_tags(self):
+        return self.filter(is_published=True).only('name')
 
 
 class Item(Published):
@@ -26,6 +46,8 @@ class Item(Published):
         on_delete=models.RESTRICT
     )
 
+    objects = ItemManager()
+
     def __str__(self):
         return self.name
 
@@ -38,6 +60,8 @@ class Category(Slug, Published):
     weight = models.PositiveSmallIntegerField(verbose_name='Вес', default=100)
     name = models.CharField(verbose_name='Имя', max_length=128)
 
+    objects = CategoryManager()
+
     def __str__(self):
         return self.slug
 
@@ -48,6 +72,8 @@ class Category(Slug, Published):
 
 class Tag(Slug, Published):
     name = models.CharField(verbose_name='Имя', max_length=128)
+
+    objects = TagManager()
 
     def __str__(self):
         return self.slug

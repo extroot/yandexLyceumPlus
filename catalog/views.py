@@ -5,12 +5,10 @@ from django.shortcuts import get_object_or_404, render
 
 
 def item_list(request):
-    all_items = Item.objects.filter(is_published=True).prefetch_related(
-        Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name'))
-    ).only('name', 'text')
+    categories = Category.objects.published_category()
 
     context = {
-        'items': all_items
+        'categories': categories
     }
     TEMPLATE_NAME = 'catalog/item_list.html'
     return render(request, TEMPLATE_NAME, context)
