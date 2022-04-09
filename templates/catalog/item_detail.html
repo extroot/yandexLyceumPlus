@@ -1,9 +1,24 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-    Подробно элемент
+  Подробно элемент
 {% endblock %}
 
 {% block content %}
-    <h1>Подробно элемент {{ id_product }}</h1>
+  <div class="container m-4">
+    <h2>{{ item.name }}</h2>
+    <!-- Если категория скрыта, то не показываем. -->
+    {% if item.category %}
+      <h5>{{ item.category.name }}</h5>
+    {% endif %}
+
+
+    <p>{{ item.text }}</p>
+    <h5>Теги:</h5>
+    {% for tag in item.tags.all %}
+      <p>{{ tag.name }}</p>
+    {% empty %}
+      <p>Тегов нет</p>
+    {% endfor %}
+  </div>
 {% endblock %}

@@ -1,9 +1,14 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-    Список элементов
+  Список элементов
 {% endblock %}
 
 {% block content %}
-    <h1>Список элементов</h1>
+    <section class="container">
+        {% if items %}
+            <h2>Товары</h2>
+        {% endif %}
+        {% include 'catalog/includes/item_grid.html' %}
+    </section>
 {% endblock %}

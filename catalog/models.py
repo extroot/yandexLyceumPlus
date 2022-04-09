@@ -1,15 +1,16 @@
-from django.contrib.auth.models import User
-from django.db import models
-
 from catalog.validators import text_validation
+
 from core.models import Published, Slug
+
+from django.db import models
 
 
 class Item(Published):
     name = models.CharField(max_length=150)
     text = models.TextField(
         verbose_name='Текст',
-        help_text='Минимум два слова. Обязательно должно содержаться слово превосходно или роскошно',
+        help_text='Минимум два слова. Обязательно должно'
+                  ' содержаться слово превосходно или роскошно',
         validators=[text_validation]
     )
 
@@ -35,6 +36,7 @@ class Item(Published):
 
 class Category(Slug, Published):
     weight = models.PositiveSmallIntegerField(verbose_name='Вес', default=100)
+    name = models.CharField(verbose_name='Имя', max_length=128)
 
     def __str__(self):
         return self.slug
@@ -45,6 +47,8 @@ class Category(Slug, Published):
 
 
 class Tag(Slug, Published):
+    name = models.CharField(verbose_name='Имя', max_length=128)
+
     def __str__(self):
         return self.slug
 
