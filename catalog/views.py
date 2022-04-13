@@ -25,10 +25,13 @@ def item_detail(request, id_product):
 
     stars = Rating.objects.filter(item=item, star__in=[1, 2, 3, 4, 5]).aggregate(
         Avg('star'), Count('star'))
-    try:
-        star_user = Rating.objects.only('star').get(item=item, user=request.user).star
-    except Rating.DoesNotExist:
-        star_user = 0
+
+    star_user = 0
+    if request.user.is_authenticated:
+        try:
+            star_user = Rating.objects.only('star').get(item=item, user=request.user).star
+        except Rating.DoesNotExist:
+            pass
 
     context = {
         'item': item,
