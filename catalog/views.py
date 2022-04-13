@@ -1,3 +1,4 @@
+from catalog.forms import StarForm
 from catalog.models import Category, Item, Tag
 
 from django.contrib.auth.decorators import login_required
@@ -19,20 +20,14 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
-    item = get_object_or_404(Item.objects.select_related('category').prefetch_related(
-        Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
-    ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
+    item = Item.objects.get_item(id_product)
 
-    # stars = Rating.objects.filter(item=item).exclude(star=0).aggregate(
-    #     Avg('star'), Count('star'))
     stars = item.ratings.exclude(star=0).aggregate(
         Avg('star'), Count('star'))
 
     star_user = 0
     if request.user.is_authenticated:
-        user_star_if_exist = Rating.objects.only('star').filter(item=item, user=request.user).first()
-        if user_star_if_exist:
-            star_user = user_star_if_exist.star
+        star_user = Rating.objects.get_user_star(item, request.user)
 
     context = {
         'item': item,
@@ -47,11 +42,11 @@ def item_detail(request, id_product):
 @login_required
 def set_star(request, id_product):
     item = get_object_or_404(Item, pk=id_product, is_published=True)
-    post = request.POST.dict()
-    if 'star' in post and post['star'] in [str(x[0]) for x in Rating.choices]:
+    form = StarForm(request.POST)
+    if form.is_valid():
         Rating.objects.update_or_create(
             item=item,
             user=request.user,
-            defaults={'star': post['star']}
+            defaults={'star': form.cleaned_data['star']}
         )
     return redirect('item_detail', id_product)

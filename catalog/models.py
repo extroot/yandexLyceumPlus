@@ -1,3 +1,7 @@
+from django.db.models import Avg
+from django.db.models import Count
+from django.shortcuts import get_object_or_404
+
 from catalog.validators import text_validation
 
 from core.models import Published, Slug
@@ -11,6 +15,11 @@ class ItemManager(models.Manager):
         return self.filter(is_published=True).prefetch_related(
             Prefetch('tags', queryset=Tag.objects.published_tags())
         ).only('name', 'text', 'tags__name', 'category_id')
+
+    def get_item(self, id_product):
+        return get_object_or_404(self.select_related('category').prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
+        ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
 
 class CategoryManager(models.Manager):

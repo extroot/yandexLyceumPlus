@@ -3,6 +3,14 @@ from django.db import models
 from django.db.models import UniqueConstraint
 
 
+class RatingManager(models.Manager):
+    def get_user_star(self, item, user):
+        user_star_if_exist = self.only('star').filter(item=item, user=user).first()
+        if user_star_if_exist:
+            return user_star_if_exist.star
+        return 0
+
+
 class Rating(models.Model):
     choices = (
         (5, 'Любовь'),
@@ -27,6 +35,8 @@ class Rating(models.Model):
         on_delete=models.CASCADE,
         related_name='ratings'
     )
+
+    objects = RatingManager()
 
     class Meta:
         verbose_name = 'Оценка'
