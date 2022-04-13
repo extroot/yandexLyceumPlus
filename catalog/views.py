@@ -47,9 +47,10 @@ def item_detail(request, id_product):
 def set_star(request, id_product):
     item = get_object_or_404(Item, pk=id_product, is_published=True)
     post = request.POST.dict()
-    Rating.objects.update_or_create(
-        item=item,
-        user=request.user,
-        defaults={'star': post['star']}
-    )
+    if 'star' in post and post['star'] in [str(x[0]) for x in Rating.choices]:
+        Rating.objects.update_or_create(
+            item=item,
+            user=request.user,
+            defaults={'star': post['star']}
+        )
     return redirect('item_detail', id_product)
