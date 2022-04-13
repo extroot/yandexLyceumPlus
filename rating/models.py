@@ -5,15 +5,15 @@ from django.db.models import UniqueConstraint
 
 class Rating(models.Model):
     choices = (
-        ('5', 'Любовь'),
-        ('4', 'Обожание'),
-        ('3', 'Нейтрально'),
-        ('2', 'Неприязнь'),
-        ('1', 'Ненависть'),
-        ('0', 'Оценка отсутствует')
+        (5, 'Любовь'),
+        (4, 'Обожание'),
+        (3, 'Нейтрально'),
+        (2, 'Неприязнь'),
+        (1, 'Ненависть'),
+        (0, 'Оценка отсутствует')
     )
 
-    star = models.CharField(verbose_name='Оценка', max_length=1, choices=choices, default='0')
+    star = models.PositiveSmallIntegerField(verbose_name='Оценка', choices=choices, default=0)
     item = models.ForeignKey(
         verbose_name='Товар',
         to='catalog.Item',

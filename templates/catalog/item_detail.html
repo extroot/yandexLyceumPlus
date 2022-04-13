@@ -1,24 +1,74 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Подробно элемент
+    Подробно элемент
 {% endblock %}
 
 {% block content %}
-  <div class="container m-4">
-    <h2>{{ item.name }}</h2>
-    <!-- Если категория скрыта, то не показываем. -->
-    {% if item.category %}
-      <h5>{{ item.category.name }}</h5>
-    {% endif %}
+    <div class="container m-4">
+        <h2>{{ item.name }}</h2>
+        <!-- Если категория скрыта, то не показываем. -->
+        {% if item.category %}
+            <h5>{{ item.category.name }}</h5>
+        {% endif %}
+
+        <h6>{% if stars.star__avg %}{{ stars.star__avg }}{% else %}0.0{% endif %} звёзд / оценок: {{ stars.star__count }}</h6>
+        {% if user.is_authenticated %}
+        <form method='post' action="set_star">
+            {% csrf_token %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios1" value="0"
+                       {% if star_user == 0 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios1">
+                    Оценка отсутствует
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios2" value="1"
+                {% if star_user == 1 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios2">
+                    Ненависть
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios3" value="2"
+                {% if star_user == 2 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios3">
+                    Неприязнь
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios3" value="3"
+                {% if star_user == 3 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios3">
+                    Нейтрально
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios3" value="4"
+                {% if star_user == 4 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios3">
+                    Обожание
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="star" id="exampleRadios3" value="5"
+                {% if star_user == 5 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios3">
+                    Любовь
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">{% if star_user == 0 %}Поставить оценку{% else %}Изменить оценку{% endif %}</button>
+        </form>
+        {% endif %}
 
 
-    <p>{{ item.text }}</p>
-    <h5>Теги:</h5>
-    {% for tag in item.tags.all %}
-      <p>{{ tag.name }}</p>
-    {% empty %}
-      <p>Тегов нет</p>
-    {% endfor %}
-  </div>
+        <p>{{ item.text }}</p>
+        <h5>Теги:</h5>
+        {% for tag in item.tags.all %}
+            <p>{{ tag.name }}</p>
+        {% empty %}
+            <p>Тегов нет</p>
+        {% endfor %}
+    </div>
 {% endblock %}
