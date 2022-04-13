@@ -28,10 +28,9 @@ def item_detail(request, id_product):
 
     star_user = 0
     if request.user.is_authenticated:
-        try:
-            star_user = Rating.objects.only('star').get(item=item, user=request.user).star
-        except Rating.DoesNotExist:
-            pass
+        user_star_if_exist = Rating.objects.only('star').filter(item=item, user=request.user).first()
+        if user_star_if_exist:
+            star_user = user_star_if_exist.star
 
     context = {
         'item': item,
