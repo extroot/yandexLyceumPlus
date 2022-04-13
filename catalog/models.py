@@ -1,5 +1,5 @@
-from django.db.models import Avg
-from django.db.models import Count
+import random
+
 from django.shortcuts import get_object_or_404
 
 from catalog.validators import text_validation
@@ -16,9 +16,20 @@ class ItemManager(models.Manager):
             Prefetch('tags', queryset=Tag.objects.published_tags())
         ).only('name', 'text', 'tags__name', 'category_id')
 
+    def get_random_items(self, random_obj_count):
+        ids = list(self.filter(is_published=True).values_list('id', flat=True))
+        if len(ids) < random_obj_count:
+            return self.filter(is_published=True).prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.published_tags())
+            ).only('name', 'text', 'category__name')
+        return self.filter(
+            pk__in=random.sample(ids, random_obj_count)).prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.published_tags())
+        ).only('name', 'text')
+
     def get_item(self, id_product):
         return get_object_or_404(self.select_related('category').prefetch_related(
-            Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
+            Prefetch('tags', queryset=Tag.objects.published_tags()),
         ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
 
