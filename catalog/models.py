@@ -1,13 +1,12 @@
 import random
 
-from django.shortcuts import get_object_or_404
-
 from catalog.validators import text_validation
 
 from core.models import Published, Slug
 
 from django.db import models
 from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404
 
 
 class ItemManager(models.Manager):
