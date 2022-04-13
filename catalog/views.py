@@ -23,7 +23,9 @@ def item_detail(request, id_product):
         Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
     ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
-    stars = Rating.objects.filter(item=item).exclude(star=0).aggregate(
+    # stars = Rating.objects.filter(item=item).exclude(star=0).aggregate(
+    #     Avg('star'), Count('star'))
+    stars = item.ratings.exclude(star=0).aggregate(
         Avg('star'), Count('star'))
 
     star_user = 0
