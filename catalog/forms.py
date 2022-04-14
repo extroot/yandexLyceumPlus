@@ -1,9 +1,8 @@
-from django.forms import ModelForm
+from django import forms
+from django.forms import ChoiceField
 
 from rating.models import Rating
 
 
-class StarForm(ModelForm):
-    class Meta:
-        model = Rating
-        fields = ('star', )
+class StarForm(forms.Form):
+    star = ChoiceField(choices=Rating.choices)

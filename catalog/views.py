@@ -1,3 +1,5 @@
+from django.views.generic import TemplateView
+
 from catalog.forms import StarForm
 from catalog.models import Category, Item
 
@@ -20,6 +22,18 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
+    if request.method == 'POST':
+        item = get_object_or_404(Item, pk=id_product, is_published=True)
+
+        form = StarForm(request.POST)
+        if form.is_valid() and request.user.is_authenticated:
+            Rating.objects.update_or_create(
+                item=item,
+                user=request.user,
+                defaults={'star': form.cleaned_data['star']}
+            )
+        return redirect('item_detail', id_product)
+
     item = Item.objects.get_item(id_product)
 
     stars = item.ratings.exclude(star=0).aggregate(
@@ -32,21 +46,8 @@ def item_detail(request, id_product):
     context = {
         'item': item,
         'stars': stars,
-        'star_user': star_user
+        'star_user': star_user,
+        'form': StarForm()
     }
     TEMPLATE_NAME = 'catalog/item_detail.html'
     return render(request, TEMPLATE_NAME, context)
-
-
-@require_POST
-@login_required
-def set_star(request, id_product):
-    item = get_object_or_404(Item, pk=id_product, is_published=True)
-    form = StarForm(request.POST)
-    if form.is_valid():
-        Rating.objects.update_or_create(
-            item=item,
-            user=request.user,
-            defaults={'star': form.cleaned_data['star']}
-        )
-    return redirect('item_detail', id_product)
