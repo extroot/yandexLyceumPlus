@@ -1,12 +1,8 @@
-from django.views.generic import TemplateView
-
 from catalog.forms import StarForm
 from catalog.models import Category, Item
 
-from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_POST
 
 from rating.models import Rating
 
