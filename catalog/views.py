@@ -1,7 +1,10 @@
-from catalog.models import Category, Item, Tag
+from catalog.forms import StarForm
+from catalog.models import Category, Item
 
-from django.db.models import Prefetch
-from django.shortcuts import get_object_or_404, render
+from django.db.models import Avg, Count
+from django.shortcuts import get_object_or_404, redirect, render
+
+from rating.models import Rating
 
 
 def item_list(request):
@@ -15,12 +18,32 @@ def item_list(request):
 
 
 def item_detail(request, id_product):
-    item = get_object_or_404(Item.objects.select_related('category').prefetch_related(
-        Prefetch('tags', queryset=Tag.objects.filter(is_published=True).only('name')),
-    ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
+    if request.method == 'POST':
+        item = get_object_or_404(Item, pk=id_product, is_published=True)
+
+        form = StarForm(request.POST)
+        if form.is_valid() and request.user.is_authenticated:
+            Rating.objects.update_or_create(
+                item=item,
+                user=request.user,
+                defaults={'star': form.cleaned_data['star']}
+            )
+        return redirect('item_detail', id_product)
+
+    item = Item.objects.get_item(id_product)
+
+    stars = item.ratings.exclude(star=0).aggregate(
+        Avg('star'), Count('star'))
+
+    star_user = 0
+    if request.user.is_authenticated:
+        star_user = Rating.objects.get_user_star(item, request.user)
 
     context = {
-        'item': item
+        'item': item,
+        'stars': stars,
+        'star_user': star_user,
+        'form': StarForm()
     }
     TEMPLATE_NAME = 'catalog/item_detail.html'
     return render(request, TEMPLATE_NAME, context)

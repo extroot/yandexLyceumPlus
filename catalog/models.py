@@ -1,9 +1,12 @@
+import random
+
 from catalog.validators import text_validation
 
 from core.models import Published, Slug
 
 from django.db import models
 from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404
 
 
 class ItemManager(models.Manager):
@@ -11,6 +14,22 @@ class ItemManager(models.Manager):
         return self.filter(is_published=True).prefetch_related(
             Prefetch('tags', queryset=Tag.objects.published_tags())
         ).only('name', 'text', 'tags__name', 'category_id')
+
+    def get_random_items(self, random_obj_count):
+        ids = list(self.filter(is_published=True).values_list('id', flat=True))
+        if len(ids) < random_obj_count:
+            return self.filter(is_published=True).prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.published_tags())
+            ).only('name', 'text', 'category__name')
+        return self.filter(
+            pk__in=random.sample(ids, random_obj_count)).prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.published_tags())
+        ).only('name', 'text')
+
+    def get_item(self, id_product):
+        return get_object_or_404(self.select_related('category').prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.published_tags()),
+        ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
 
 
 class CategoryManager(models.Manager):
