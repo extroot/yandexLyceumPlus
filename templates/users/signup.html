@@ -1,9 +1,13 @@
-{% extends 'includes/base.html' %}
+{% extends 'users/base_form.html' %}
 
 {% block title %}
-  Регистрация
+    Зарегистрироваться
 {% endblock %}
 
-{% block content %}
-  <h1>Регистрация</h1>
+{% block form_title %}
+    Зарегистрироваться
+{% endblock %}
+
+{% block buttons %}
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 {% endblock %}
