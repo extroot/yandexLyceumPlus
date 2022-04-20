@@ -5,7 +5,15 @@ from .models import Profile
 
 
 class BaseForm(forms.BaseForm):
-    # Add Bootstrap class to field
+    """
+    BaseForm class based in forms.BaseForm
+    In __init__ adds 'form-control' class to all fields
+    Честно, я не знаю, как сделать проще сразу для всех полей.
+    Прописывать виджеты для каждого поля - это же будет частично считаться хардкодом)
+     Да и не удобно это.
+    Если есть способ проще, я был бы рад
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -32,13 +40,13 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
         return cd['password2']
 
 
-class UserForm(forms.ModelForm):
+class UserForm(forms.ModelForm, BaseForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm, BaseForm):
     class Meta:
         model = Profile
         fields = ('birthday', )

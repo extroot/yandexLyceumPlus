@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birthday = models.DateField(null=True, blank=True)
+    birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
 
 
 @receiver(post_save, sender=User)

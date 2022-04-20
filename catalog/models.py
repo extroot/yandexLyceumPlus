@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 
+from rating.models import Rating
+
 
 class ItemManager(models.Manager):
     def published_items(self):
@@ -25,6 +27,14 @@ class ItemManager(models.Manager):
             pk__in=random.sample(ids, random_obj_count)).prefetch_related(
             Prefetch('tags', queryset=Tag.objects.published_tags())
         ).only('name', 'text')
+
+    def user_liked_items(self, user):
+        return self.filter(
+            pk__in=Rating.objects.filter(
+                user=user, star=5).values_list('item_id')
+        ).prefetch_related(
+            Prefetch('tags', queryset=Tag.objects.published_tags())
+        ).only('name', 'text', 'tags__name', 'category_id')
 
     def get_item(self, id_product):
         return get_object_or_404(self.select_related('category').prefetch_related(

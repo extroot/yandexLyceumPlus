@@ -1,14 +1,12 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Главная страница
+    Главная страница
 {% endblock %}
 
 {% block content %}
-    <section class="container">
-        {% if items %}
-            <h2>Главная</h2>
-        {% endif %}
-        {% include 'catalog/includes/item_grid.html' %}
-    </section>
+    {% if items %}
+        <h2>Главная</h2>
+    {% endif %}
+    {% include 'catalog/includes/item_grid.html' %}
 {% endblock %}

@@ -1,9 +1,28 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Информация о пользователе
+    Информация о пользователе
 {% endblock %}
 
 {% block content %}
-  <h1>Информация о пользователе {{ id_user }}</h1>
+    <h1>Информация о пользователе</h1>
+    {% if user.first_name %}
+        <p>Имя: {{ user.first_name }}</p>
+    {% endif %}
+    {% if user.last_name %}
+        <p>Фамилия: {{ user.last_name }}</p>
+    {% endif %}
+    {% if user.email %}
+        <p>Почта: {{ user.email }}</p>
+    {% endif %}
+    {% if user.profile.birthday %}
+        <p>День рождения: {{ user.profile.birthday }}</p>
+    {% endif %}
+
+    {% if items %}
+        <h3>Список любимых товаров</h3>
+        {% include 'catalog/includes/item_grid.html' %}
+    {% else %}
+        <h3>Любимых товаров нет</h3>
+    {% endif %}
 {% endblock %}
