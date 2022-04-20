@@ -8,6 +8,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
 
+    def __str__(self):
+        return f'Username: {self.user.username} День рождения: {self.birthday}'
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
