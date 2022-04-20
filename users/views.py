@@ -1,18 +1,11 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.contrib.auth import logout
+from catalog.models import Item
+
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.views import View
+from django.shortcuts import get_object_or_404, redirect, render
 
-from catalog.models import Item
-from users.forms import ProfileForm
-from users.forms import UserForm
-from users.forms import UserLoginForm
-from users.forms import UserRegistrationForm
+from users.forms import ProfileForm, UserForm, UserLoginForm, UserRegistrationForm
 from users.models import Profile
 
 
@@ -100,7 +93,7 @@ def user_detail(request, id_user):
 
 def user_list(request):
     users = User.objects.all().prefetch_related(
-        Prefetch('profile', queryset=Profile.objects.all().only('birthday'))
+        Prefetch('profile', queryset=Profile.objects.all())
     )
 
     context = {
