@@ -1,9 +1,41 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Мой профиль
+    Мой профиль
 {% endblock %}
 
 {% block content %}
-  <h1>Мой профиль</h1>
+    <h1>Мой профиль</h1>
+
+    {% if items %}
+        <h3>Список любимых товаров</h3>
+        {% include 'catalog/includes/item_grid.html' %}
+    {% else %}
+        <h3>Любимых товаров нет</h3>
+    {% endif %}
+
+    <h3>Изменить данные</h3>
+
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for field in user_form %}
+                <div class="mb-3">
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            {% for field in profile_form %}
+                <div class="mb-3">
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            {% block buttons %}
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            {% endblock %}
+        </form>
+    </div>
 {% endblock %}

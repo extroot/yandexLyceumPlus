@@ -5,19 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    <section class="container">
-        {% if categories %}
-            <h2>Товары</h2>
+    {% if categories %}
+        <h2>Товары</h2>
+    {% endif %}
+    {% for cat in categories %}
+        {% if cat.items.count %}
+            <h3>{{ cat.name }}</h3>
+            {% with items=cat.items.all %}
+                {% include 'catalog/includes/item_grid.html' %}
+            {% endwith %}
         {% endif %}
-        {% for cat in categories %}
-            {% if cat.items.count %}
-                <h3>{{ cat.name }}</h3>
-                {% with items=cat.items.all %}
-                    {% include 'catalog/includes/item_grid.html' %}
-                {% endwith %}
-            {% endif %}
-        {% empty %}
-            <h3>Список пуст. Эй, админ, добавь инфы!</h3>
-        {% endfor %}
-    </section>
+    {% empty %}
+        <h3>Список пуст. Эй, админ, добавь инфы!</h3>
+    {% endfor %}
 {% endblock %}

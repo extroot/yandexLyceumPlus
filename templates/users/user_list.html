@@ -1,9 +1,33 @@
 {% extends 'includes/base.html' %}
 
 {% block title %}
-  Список пользователей
+    Список пользователей
 {% endblock %}
 
 {% block content %}
-  <h1>Список пользователей</h1>
+    <h1>Список пользователей</h1>
+    <div class="row-cols-2">
+        {% for user in users %}
+            <div class="col-sm-4">
+                <div class="card m-2" style="width: 35rem;">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h5>
+                                {{ user.username }}
+                            </h5>
+                        </div>
+                        {% if user.email or user.first_name or user.last_name %}
+                            <p class="card-text">{{ user.email }} {{ user.first_name }} {{ user.last_name }}
+                                {% if user.profile.birthday %}{{ user.profile.birthday }}{% endif %}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'user_page' user.pk %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <h3>Пользователей нет</h3>
+        {% endfor %}
+        <div class="row">
 {% endblock %}
