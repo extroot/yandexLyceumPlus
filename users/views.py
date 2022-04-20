@@ -1,6 +1,6 @@
 from catalog.models import Item
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
@@ -49,10 +49,9 @@ def login_page(request):
     return render(request, TEMPLATE_NAME, context)
 
 
-def logout_page(request):
-    # TODO: message when user is not authenticated
-    logout(request)
-    return redirect('homepage')
+# def logout_page(request):
+#     logout(request)
+#     return redirect('homepage')
 
 
 def profile(request):
