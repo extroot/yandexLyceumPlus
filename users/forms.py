@@ -50,3 +50,6 @@ class ProfileForm(forms.ModelForm, BaseForm):
     class Meta:
         model = Profile
         fields = ('birthday', )
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'})
+        }

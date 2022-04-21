@@ -1,5 +1,6 @@
 from catalog.models import Item
 
+import django.contrib.auth.views as admin_views
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
@@ -18,7 +19,7 @@ def sighup(request):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
-            return redirect('profile_page')
+            return redirect('login')
     else:
         form = UserRegistrationForm()
 
@@ -101,3 +102,35 @@ def user_list(request):
 
     TEMPLATE_NAME = 'users/user_list.html'
     return render(request, TEMPLATE_NAME, context=context)
+
+
+class LoginView(admin_views.LoginView):
+    template_name = 'users/login.html'
+
+
+class PasswordChangeDoneView(admin_views.PasswordChangeDoneView):
+    template_name = 'users/password_change_done.html'
+
+
+class LogoutView(admin_views.LogoutView):
+    template_name = 'users/logout.html'
+
+
+class PasswordResetView(admin_views.PasswordResetView):
+    template_name = 'users/password_reset.html'
+
+
+class PasswordResetDoneView(admin_views.PasswordResetDoneView):
+    template_name = 'users/password_reset_done.html'
+
+
+class PasswordResetConfirmView(admin_views.PasswordResetConfirmView):
+    template_name = 'users/reset.html'
+
+
+class PasswordResetCompleteView(admin_views.PasswordResetCompleteView):
+    template_name = 'users/reset_done.html'
+
+
+class PasswordChangeView(admin_views.PasswordChangeView):
+    template_name = 'users/password_change.html'
