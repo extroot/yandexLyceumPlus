@@ -2,11 +2,11 @@ from catalog.models import Item
 
 import django.contrib.auth.views as admin_views
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 
 from users.forms import ProfileForm, UserForm, UserLoginForm, UserRegistrationForm
+from users.models import CustomUser
 from users.models import Profile
 
 
@@ -77,7 +77,7 @@ def profile(request):
 
 
 def user_detail(request, id_user):
-    user = get_object_or_404(User.objects.only(
+    user = get_object_or_404(CustomUser.objects.only(
         'email', 'first_name', 'last_name', 'profile__birthday'
     ).select_related('profile'), pk=id_user)
     liked_items = Item.objects.user_liked_items(user)
@@ -92,7 +92,7 @@ def user_detail(request, id_user):
 
 
 def user_list(request):
-    users = User.objects.all().prefetch_related(
+    users = CustomUser.objects.all().prefetch_related(
         Prefetch('profile', queryset=Profile.objects.all())
     )
 
