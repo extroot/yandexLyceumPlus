@@ -35,8 +35,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
 
-    # Юзернейм сказали удалить в задании, но чет не захотело без него работать :0
-    username = models.CharField(verbose_name='Ник', max_length=32)
+    # Юзернейм сказали удалить в задании
+    # username = models.CharField(verbose_name='Ник', max_length=32)
     first_name = models.CharField(verbose_name='Имя', max_length=64, blank=True, null=True)
     last_name = models.CharField(verbose_name='Фамилия', max_length=64, blank=True, null=True)
 
