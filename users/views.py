@@ -10,7 +10,7 @@ from users.models import CustomUser
 from users.models import Profile
 
 
-def sighup(request):
+def signup(request):
     TEMPLATE_NAME = 'users/signup.html'
 
     if request.method == 'POST':
