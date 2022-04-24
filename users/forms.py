@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import CustomUser, Profile
 
 
 class BaseForm(forms.BaseForm):
@@ -21,7 +20,7 @@ class BaseForm(forms.BaseForm):
 
 
 class UserLoginForm(forms.Form, BaseForm):
-    username = forms.CharField(label='Имя пользователя')
+    email = forms.EmailField(label='Почта')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
 
 
@@ -30,8 +29,8 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
 
     class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email')
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -42,7 +41,7 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
 
 class UserForm(forms.ModelForm, BaseForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('first_name', 'last_name', 'email')
 
 
