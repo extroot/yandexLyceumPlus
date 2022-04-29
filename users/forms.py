@@ -20,11 +20,6 @@ class BaseForm(forms.BaseForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
 
-class UserLoginForm(forms.Form, BaseForm):
-    username = forms.CharField(label='Имя пользователя')
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-
-
 class UserRegistrationForm(forms.ModelForm, BaseForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
