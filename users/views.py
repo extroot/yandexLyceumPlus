@@ -1,15 +1,16 @@
 from catalog.models import Item
 
 import django.contrib.auth.views as admin_views
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 
-from users.forms import ProfileForm, UserForm, UserRegistrationForm
+from users.forms import ProfileForm, UserForm, UserLoginForm, UserRegistrationForm
+from users.models import CustomUser
 from users.models import Profile
 
 
-def sighup(request):
+def signup(request):
     TEMPLATE_NAME = 'users/signup.html'
 
     if request.method == 'POST':
@@ -24,6 +25,34 @@ def sighup(request):
 
     context = {'form': form}
     return render(request, TEMPLATE_NAME, context)
+
+
+def login_page(request):
+    TEMPLATE_NAME = 'users/login.html'
+
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('profile_page')
+                else:
+                    form.add_error(None, 'Аккаунт не активен')
+            else:
+                form.add_error(None, 'Пользователь не найден')
+    else:
+        form = UserLoginForm()
+
+    context = {'form': form}
+    return render(request, TEMPLATE_NAME, context)
+
+
+# def logout_page(request):
+#     logout(request)
+#     return redirect('homepage')
 
 
 def profile(request):
@@ -48,7 +77,7 @@ def profile(request):
 
 
 def user_detail(request, id_user):
-    user = get_object_or_404(User.objects.only(
+    user = get_object_or_404(CustomUser.objects.only(
         'email', 'first_name', 'last_name', 'profile__birthday'
     ).select_related('profile'), pk=id_user)
     liked_items = Item.objects.user_liked_items(user)
@@ -63,7 +92,7 @@ def user_detail(request, id_user):
 
 
 def user_list(request):
-    users = User.objects.all().prefetch_related(
+    users = CustomUser.objects.all().prefetch_related(
         Prefetch('profile', queryset=Profile.objects.all())
     )
 

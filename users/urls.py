@@ -3,7 +3,9 @@ from django.urls import path
 from users import views
 
 urlpatterns = [
-    path('signup/', views.sighup, name='signup'),
+    path('signup/', views.signup, name='signup'),
+    # path('login/', views.login_page, name='login'),
+    # path('logout/', views.logout_page, name='logout'),
 
     path('profile/', views.profile, name='profile_page'),
     path('users/<int:id_user>/', views.user_detail, name='user_page'),

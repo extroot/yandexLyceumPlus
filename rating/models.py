@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import UniqueConstraint
+
+from users.models import CustomUser
 
 
 class RatingManager(models.Manager):
@@ -31,7 +32,7 @@ class Rating(models.Model):
 
     user = models.ForeignKey(
         verbose_name='Пользователь',
-        to=User,
+        to=CustomUser,
         on_delete=models.CASCADE,
         related_name='ratings'
     )
