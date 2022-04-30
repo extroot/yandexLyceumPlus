@@ -1,7 +1,10 @@
+{% load static %}
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-left: 30px">Домой</a>
+            <a class="navbar-brand" href="{% url 'homepage' %}" style="margin-left: 30px">
+                <img alt="Домой" src="{% static '/img/fav/android-chrome-512x512.png' %}" style="width: 45px"/>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -44,9 +47,17 @@
         </div>
     </nav>
     <h4>
-        Наши именинники:
-        {% for user in birthdays %}
-            {{ user.user.first_name }}
-        {% endfor %}
+        {% if birthdays %}
+            Наши именинники:
+            {% for user in birthdays %}
+                {% if user.user.first_name %}
+                    {{ user.user.first_name }}
+                {% elif user.user.last_name %}
+                    {{ user.user.last_name }}
+                {% else %}
+                    {{ user.user.email }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </h4>
 </header>
