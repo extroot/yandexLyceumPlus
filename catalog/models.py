@@ -1,5 +1,7 @@
 import random
 
+from django.utils.safestring import mark_safe
+
 from catalog.validators import text_validation
 
 from core.models import Published, Slug
@@ -9,6 +11,8 @@ from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 
 from rating.models import Rating
+
+from sorl.thumbnail import get_thumbnail
 
 
 class ItemManager(models.Manager):
@@ -75,6 +79,30 @@ class Item(Published):
         on_delete=models.RESTRICT
     )
 
+    image = models.ImageField(
+        upload_to='uploads/',
+        verbose_name='Изображение',
+        null=True
+    )
+
+    def get_image_x1280(self):
+        if self.image:
+            return get_thumbnail(self.image, '1280', quality=51)
+        return 'Нет изображения'
+
+    def get_image_400x300(self):
+        if self.image:
+            return get_thumbnail(self.image, '400x300', crop='center', quality=51)
+        return 'Нет изображения'
+
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="50">')
+        return 'Нет изображения'
+
+    image_tmb.short_descriptions = 'Превью изображения'
+    image_tmb.allow_tags = True
+
     objects = ItemManager()
 
     def __str__(self):
@@ -83,6 +111,38 @@ class Item(Published):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+
+class Image(models.Model):
+    image = models.ImageField(
+        upload_to='uploads/',
+        verbose_name='Изображение'
+    )
+
+    item = models.ForeignKey(
+        verbose_name='Товар',
+        to='Item',
+        related_name='gallery',
+        on_delete=models.CASCADE
+    )
+
+    def get_image_400x300(self):
+        return get_thumbnail(self.image, '400x300', crop='center', quality=51)
+
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="50">')
+        return 'Нет изображения'
+
+    image_tmb.short_descriptions = 'Превью изображения'
+    image_tmb.allow_tags = True
+
+    def __str__(self):
+        return self.item.name
+
+    class Meta:
+        verbose_name = 'Изображение в галерее'
+        verbose_name_plural = 'Изображения в галерее'
 
 
 class Category(Slug, Published):

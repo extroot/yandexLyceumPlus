@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'debug_toolbar.apps.DebugToolbarConfig',
+    'sorl.thumbnail',
+    'django_cleanup.apps.CleanupConfig',
     # My apps
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
@@ -131,9 +133,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = 'uploads/'
+
+MEDIA_ROOT = 'media'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_dev"),
 ]
+
+STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
