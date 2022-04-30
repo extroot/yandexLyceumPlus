@@ -43,4 +43,10 @@
             </div>
         </div>
     </nav>
+    <h4>
+        Наши именинники:
+        {% for user in birthdays %}
+            {{ user.user.first_name }}
+        {% endfor %}
+    </h4>
 </header>
