@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'rating.apps.RatingConfig',
     'users.apps.UsersConfig',
+    'tinymce',
 ]
 
 MIDDLEWARE = [

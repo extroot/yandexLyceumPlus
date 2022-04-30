@@ -1,17 +1,17 @@
 import random
 
-from catalog.validators import text_validation
-
-from core.models import Published, Slug
-
 from django.db import models
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 
-from rating.models import Rating
-
 from sorl.thumbnail import get_thumbnail
+
+from tinymce.models import HTMLField
+
+from catalog.validators import text_validation
+from core.models import Published, Slug
+from rating.models import Rating
 
 
 class ItemManager(models.Manager):
@@ -40,9 +40,11 @@ class ItemManager(models.Manager):
         ).only('name', 'text', 'tags__name', 'category_id')
 
     def get_item(self, id_product):
-        return get_object_or_404(self.select_related('category').prefetch_related(
-            Prefetch('tags', queryset=Tag.objects.published_tags()),
-        ).only('name', 'text', 'category__name', 'tags__name'), pk=id_product, is_published=True)
+        return get_object_or_404(
+            self.select_related('category').prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.published_tags()),
+            ).only('name', 'text', 'category__name', 'tags__name'),
+            pk=id_product, is_published=True)
 
 
 class CategoryManager(models.Manager):
@@ -59,7 +61,7 @@ class TagManager(models.Manager):
 
 class Item(Published):
     name = models.CharField(max_length=150)
-    text = models.TextField(
+    text = HTMLField(
         verbose_name='Текст',
         help_text='Минимум два слова. Обязательно должно'
                   ' содержаться слово превосходно или роскошно',
@@ -91,7 +93,8 @@ class Item(Published):
 
     def get_image_400x300(self):
         if self.image:
-            return get_thumbnail(self.image, '400x300', crop='center', quality=51)
+            return get_thumbnail(self.image, '400x300', crop='center',
+                                 quality=51)
         return 'Нет изображения'
 
     def image_tmb(self):
