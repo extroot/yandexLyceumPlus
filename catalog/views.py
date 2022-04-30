@@ -1,10 +1,9 @@
-from django.views import View
-
 from catalog.forms import StarForm
 from catalog.models import Category, Item
 
 from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
 
 from rating.models import Rating
 

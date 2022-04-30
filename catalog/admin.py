@@ -1,4 +1,4 @@
-from catalog.models import Category, Item, Tag, Image
+from catalog.models import Category, Image, Item, Tag
 
 from django.contrib import admin
 

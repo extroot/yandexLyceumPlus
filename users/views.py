@@ -1,9 +1,9 @@
 from catalog.models import Item
 
 import django.contrib.auth.views as admin_views
-from django.views import View
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
 
 from users.forms import ProfileForm, UserForm, UserRegistrationForm
 from users.models import CustomUser
