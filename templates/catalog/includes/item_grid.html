@@ -12,7 +12,7 @@
                         {% endfor %}
                     </div>
                     <img class="img-fluid" src="{{ item.get_image_400x300.url }}">
-                    <p class="card-text">Описание: {{ item.text|truncatewords:10 }}</p>
+                    <p class="card-text">Описание: {{ item.text|truncatewords:10|safe }}</p>
                 </div>
                 <div class="card-body">
                     <a href="{% url 'item_detail' item.pk %}" class="btn btn-primary">Подробнее</a>

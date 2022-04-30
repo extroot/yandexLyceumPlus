@@ -34,7 +34,7 @@
         {% endif %}
 
 
-        <p>{{ item.text }}</p>
+        <p>{{ item.text|safe }}</p>
         <h5>Теги:</h5>
         {% for tag in item.tags.all %}
             <p>{{ tag.name }}</p>
