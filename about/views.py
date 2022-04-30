@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from django.views import View
 
 
-def description(request):
+class DescriptionView(View):
+    template_name = 'about/description.html'
     context = {}
-    TEMPLATE_NAME = 'about/description.html'
-    return render(request, TEMPLATE_NAME, context=context)
+
+    def get(self, reqest):
+        return render(reqest, self.template_name, self.context)

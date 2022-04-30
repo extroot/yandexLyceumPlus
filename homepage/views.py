@@ -1,15 +1,16 @@
 from catalog.models import Item
 
 from django.shortcuts import render
+from django.views import View
 
 
-def home(request):
+class HomeView(View):
+    template_name = 'homepage/home.html'
     RANDOM_OBJ_COUNT = 3
 
-    items = Item.objects.get_random_items(random_obj_count=RANDOM_OBJ_COUNT)
-
-    context = {
-        'items': items
-    }
-    TEMPLATE_NAME = 'homepage/home.html'
-    return render(request, TEMPLATE_NAME, context=context)
+    def get(self, request):
+        items = Item.objects.get_random_items(random_obj_count=self.RANDOM_OBJ_COUNT)
+        context = {
+            'items': items
+        }
+        return render(request, self.template_name, context=context)

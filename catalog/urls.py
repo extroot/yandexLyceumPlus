@@ -4,6 +4,6 @@ from django.urls import path
 
 
 urlpatterns = [
-    path('<int:id_product>/', views.item_detail, name='item_detail'),
-    path('', views.item_list, name='all_items'),
+    path('<int:id_product>/', views.ItemDetailView.as_view(), name='item_detail'),
+    path('', views.ItemListView.as_view(), name='all_items'),
 ]

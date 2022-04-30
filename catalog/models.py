@@ -1,7 +1,5 @@
 import random
 
-from django.utils.safestring import mark_safe
-
 from catalog.validators import text_validation
 
 from core.models import Published, Slug
@@ -9,6 +7,7 @@ from core.models import Published, Slug
 from django.db import models
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
+from django.utils.safestring import mark_safe
 
 from rating.models import Rating
 
